@@ -1,0 +1,133 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(45deg, #0a0a0a, #2d2d2d);
+    color: white;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('montagnes.jpg') center/cover no-repeat;
+    opacity: 0.15;
+    filter: blur(5px);
+    z-index: -1;
+}
+
+nav {
+    padding: 2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.search-bar {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: white;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    padding: 4rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.product-column {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s, background 0.3s;
+}
+
+.product-header {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+}
+
+.product-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+.product-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-bottom: 2rem;
+}
+
+.product-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.product-details div {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.product-description {
+    text-align: justify;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.footer-images {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 4rem 0;
+}
+
+.footer-image {
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    filter: grayscale(1) blur(1px);
+}
