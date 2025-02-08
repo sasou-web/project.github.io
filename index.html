@@ -3,72 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basecamp</title>
+    <meta name="description" content="Basecamp - Luxury Outdoor Gear">
+    <title>Basecamp - Alpine Excellence</title>
+    
+    <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="preload" href="https://unpkg.com/aos@next/dist/aos.css" as="style">
+    
+    <!-- Feuilles de style -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
-    <nav>
+    <!-- Navigation -->
+    <nav aria-label="Main navigation">
         <div class="nav-left">
-            <button class="nav-button">Menu</button>
-            <button class="nav-button">Shop</button>
-            <button class="nav-button">Index</button>
+            <button class="nav-button" aria-label="Menu">Menu</button>
+            <button class="nav-button" aria-label="Shop">Shop</button>
+            <button class="nav-button" aria-label="Index">Index</button>
         </div>
         <h1>BASECAMP</h1>
         <div class="nav-right">
-            <input type="text" class="search-bar" placeholder="&#xf002;">
-            <span>Account <i class="fa-regular fa-user"></i></span>
-            <div class="nav-button" id="cart-counter">0</div>
+            <label for="search" class="sr-only">Search</label>
+            <input type="text" id="search" class="search-bar" placeholder="&#xf002;" aria-label="Search">
+            <span>Account <i class="fa-regular fa-user" aria-hidden="true"></i></span>
+            <button class="nav-button" id="cart-counter" aria-label="Cart">0</button>
         </div>
     </nav>
 
-    <main class="main-content">
-        <div class="product-column">
-            <div class="product-header">N: 1562</div>
-            <h2 class="product-title">Explore Beyond Limits</h2>
-            <div class="product-subtitle">Winter Season: Waterproof jacket</div>
-            <div class="product-details">
-                <div>Launch: 2024</div>
-                <div>Format: various</div>
-                <div>Type: 3 variations</div>
-                <div>Technique: Insulated</div>
-            </div>
-            <p class="product-description">Face frigid and formidable peaks with an air of brazen confidence clad in our new Alpine Ascent jacket...</p>
-        </div>
-
-        <div class="product-column">
-            <div class="product-header">S: 780</div>
-            <h2 class="product-title">Fleece Mid-Layer</h2>
-            <div class="product-subtitle">Winter Season: Alpine Fleece</div>
-            <div class="product-details">
-                <div>Launch: 2024</div>
-                <div>Format: various</div>
-                <div>Type: 1 variation</div>
-                <div>Technique: brushed back</div>
-            </div>
-            <p class="product-description">Striking the perfect balance between thermal efficiency and lightweight luxury...</p>
-        </div>
-
-        <div class="product-column">
-            <div class="product-header">E: 662</div>
-            <h2 class="product-title">Nordic Opulence</h2>
-            <div class="product-subtitle">Winter Season: Saga Winter Boots</div>
-            <div class="product-details">
-                <div>Launch: 2024</div>
-                <div>Format: Hiking</div>
-                <div>Type: Hiking</div>
-                <div>Technique: Handcrafted</div>
-            </div>
-            <p class="product-description">Fastened with durable corded laces and topped with an engraved metal badge...</p>
-        </div>
-    </main>
-
-    <div class="footer-images">
-        <div class="footer-image"></div>
-        <div class="footer-image"></div>
-        <div class="footer-image"></div>
+    <!-- Loader -->
+    <div class="loader" aria-hidden="true">
+        <div class="loader-snowflake"></div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <!-- Produits -->
+        <section class="product-grid" aria-label="Products">
+            <article class="product-column" data-aos="fade-up">
+                <button class="add-to-cart" aria-label="Add to collection">
+                    <span>Add to Collection</span>
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </button>
+                <header class="product-header">N: 1562</header>
+                <h2 class="product-title">Explore Beyond Limits</h2>
+                <p class="product-subtitle">Winter Season: Waterproof jacket</p>
+                <div class="product-details">
+                    <div>Launch: 2024</div>
+                    <div>Format: various</div>
+                    <div>Type: 3 variations</div>
+                    <div>Technique: Insulated</div>
+                </div>
+                <p class="product-description">
+                    Face frigid and formidable peaks with an air of brazen confidence clad in our new Alpine Ascent jacket...
+                </p>
+            </article>
+
+            <!-- Répéter pour les autres produits -->
+        </section>
+    </main>
+
+    <!-- Effet parallaxe -->
+    <div class="parallax-container" aria-hidden="true">
+        <div class="parallax-layer" data-depth="0.10"></div>
+        <div class="parallax-layer" data-depth="0.30"></div>
+        <div class="parallax-layer" data-depth="0.60"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-images" aria-label="Additional information">
+        <div class="footer-image"></div>
+        <div class="footer-image"></div>
+        <div class="footer-image"></div>
+    </footer>
+
+    <!-- Panier -->
+    <aside class="cart-drawer" aria-label="Shopping cart">
+        <div class="cart-header">
+            <h3>Your Collection</h3>
+            <button class="close-cart" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="cart-items"></div>
+    </aside>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/parallax-js@3.1.0/dist/parallax.min.js" defer></script>
+    <script src="script.js" defer></script>
+    
+    <!-- AOS Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({
+                duration: 1000,
+                once: true,
+                easing: 'ease-in-out-quart'
+            });
+        });
+    </script>
 </body>
 </html>
