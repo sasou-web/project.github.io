@@ -3,103 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Basecamp - Luxury Outdoor Gear">
-    <title>Basecamp - Alpine Excellence</title>
-    
-    <!-- Préchargement des ressources critiques -->
-    <link rel="preload" href="style.css" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
-    <link rel="preload" href="https://unpkg.com/aos@next/dist/aos.css" as="style">
-    
-    <!-- Feuilles de style -->
-    <link rel="stylesheet" href="style.css">
+    <title>BASECAMP - Alpine Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav aria-label="Main navigation">
-        <div class="nav-left">
-            <button class="nav-button" aria-label="Menu">Menu</button>
-            <button class="nav-button" aria-label="Shop">Shop</button>
-            <button class="nav-button" aria-label="Index">Index</button>
-        </div>
-        <h1>BASECAMP</h1>
-        <div class="nav-right">
-            <label for="search" class="sr-only">Search</label>
-            <input type="text" id="search" class="search-bar" placeholder="&#xf002;" aria-label="Search">
-            <span>Account <i class="fa-regular fa-user" aria-hidden="true"></i></span>
-            <button class="nav-button" id="cart-counter" aria-label="Cart">0</button>
-        </div>
-    </nav>
+    <!-- En-tête -->
+    <header class="main-header">
+        <nav class="glass-nav">
+            <!-- Navigation gauche - Icônes -->
+            <div class="nav-group">
+                <button class="nav-icon" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="nav-icon" aria-label="Accueil">
+                    <i class="fas fa-mountain"></i>
+                </button>
+                <button class="nav-icon" aria-label="Boutique">
+                    <i class="fas fa-shopping-bag"></i>
+                </button>
+            </div>
 
-    <!-- Loader -->
-    <div class="loader" aria-hidden="true">
-        <div class="loader-snowflake"></div>
-    </div>
+            <!-- Logo central -->
+            <h1 class="brand-logo">
+                <span class="logo-icon">⛰️</span>
+                BASECAMP
+            </h1>
+
+            <!-- Navigation droite - Interactions -->
+            <div class="nav-group">
+                <div class="search-container">
+                    <input type="search" 
+                           class="search-input" 
+                           placeholder="Rechercher..."
+                           aria-label="Recherche">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <button class="nav-icon" aria-label="Compte">
+                    <i class="fas fa-user"></i>
+                </button>
+                
+                <button class="nav-icon cart-button" aria-label="Panier">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
 
     <!-- Contenu principal -->
-    <main class="main-content">
-        <!-- Produits -->
-        <section class="product-grid" aria-label="Products">
-            <article class="product-column" data-aos="fade-up">
-                <button class="add-to-cart" aria-label="Add to collection">
-                    <span>Add to Collection</span>
-                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                </button>
-                <header class="product-header">N: 1562</header>
-                <h2 class="product-title">Explore Beyond Limits</h2>
-                <p class="product-subtitle">Winter Season: Waterproof jacket</p>
-                <div class="product-details">
-                    <div>Launch: 2024</div>
-                    <div>Format: various</div>
-                    <div>Type: 3 variations</div>
-                    <div>Technique: Insulated</div>
+    <main class="content-grid">
+        <!-- Produit 1 -->
+        <article class="product-card" data-aos="fade-up">
+            <div class="product-header">
+                <span class="product-code">N: 1562</span>
+                <i class="fas fa-arrow-alt-circle-down product-cta"></i>
+            </div>
+            <h2 class="product-title">Explore Beyond Limits</h2>
+            <p class="product-subtitle">Veste imperméable hiver</p>
+            
+            <div class="product-details">
+                <div class="detail-item">
+                    <i class="fas fa-calendar-alt detail-icon"></i>
+                    <span>Lancement 2024</span>
                 </div>
-                <p class="product-description">
-                    Face frigid and formidable peaks with an air of brazen confidence clad in our new Alpine Ascent jacket...
-                </p>
-            </article>
+                <div class="detail-item">
+                    <i class="fas fa-ruler-combined detail-icon"></i>
+                    <span>Tailles multiples</span>
+                </div>
+            </div>
+            
+            <p class="product-description">
+                Conçu pour les conditions extrêmes, notre veste Alpine Ascent allie performance technique et élégance montagnarde...
+            </p>
+        </article>
 
-            <!-- Répéter pour les autres produits -->
-        </section>
+        <!-- Produit 2 -->
+        <article class="product-card" data-aos="fade-up" data-aos-delay="100">
+            <!-- Structure similaire au premier produit -->
+        </article>
+
+        <!-- Produit 3 -->
+        <article class="product-card" data-aos="fade-up" data-aos-delay="200">
+            <!-- Structure similaire au premier produit -->
+        </article>
     </main>
 
-    <!-- Effet parallaxe -->
-    <div class="parallax-container" aria-hidden="true">
-        <div class="parallax-layer" data-depth="0.10"></div>
-        <div class="parallax-layer" data-depth="0.30"></div>
-        <div class="parallax-layer" data-depth="0.60"></div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer-images" aria-label="Additional information">
-        <div class="footer-image"></div>
-        <div class="footer-image"></div>
-        <div class="footer-image"></div>
-    </footer>
-
-    <!-- Panier -->
-    <aside class="cart-drawer" aria-label="Shopping cart">
-        <div class="cart-header">
-            <h3>Your Collection</h3>
-            <button class="close-cart" aria-label="Close cart">&times;</button>
-        </div>
-        <div class="cart-items"></div>
-    </aside>
-
     <!-- Scripts -->
-    <script src="https://unpkg.com/parallax-js@3.1.0/dist/parallax.min.js" defer></script>
-    <script src="script.js" defer></script>
-    
-    <!-- AOS Initialization -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            AOS.init({
-                duration: 1000,
-                once: true,
-                easing: 'ease-in-out-quart'
-            });
+        AOS.init({
+            duration: 800,
+            once: true
         });
     </script>
 </body>

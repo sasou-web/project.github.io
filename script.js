@@ -1,190 +1,192 @@
-// Configuration
+// Configuration globale
 const CONFIG = {
-    cartAnimationDuration: 400,
-    loaderTimeout: 1500,
-    maxBlur: 5,
-    searchBar: {
-        expandedWidth: '200px',
-        collapsedWidth: '150px',
-        focusBg: 'rgba(255, 255, 255, 0.2)',
-        blurBg: 'rgba(255, 255, 255, 0.1)'
+    cartAnimation: {
+        duration: 400,
+        scale: 1.3
     },
-    productHover: {
-        translateY: '-5px',
-        bg: 'rgba(255, 255, 255, 0.1)'
+    loaderDelay: 1500,
+    search: {
+        expandWidth: '18rem',
+        collapseWidth: '2.8rem'
+    },
+    parallax: {
+        sensitivity: 30
     }
 };
 
-// Initialisation
-document.addEventListener('DOMContentLoaded', initApp);
-
-function initApp() {
-    if (!document.querySelector('.product-column')) return;
-    
-    setupProductHover();
-    setupCartSystem();
-    setupSearchBar();
-    setupYearDisplay();
-    setupThemeToggle();
-    setupParallax();
-    setupAOS();
-    setupLoader();
-    setupClickSounds();
-    setupScrollBlur();
-}
-
-// Modules
-function setupProductHover() {
-    const productColumns = document.querySelectorAll('.product-column');
-    
-    productColumns.forEach(column => {
-        column.addEventListener('mouseenter', () => {
-            column.style.transform = `translateY(${CONFIG.productHover.translateY})`;
-            column.style.background = CONFIG.productHover.bg;
-        });
-        
-        column.addEventListener('mouseleave', () => {
-            column.style.transform = 'translateY(0)';
-            column.style.background = '';
-        });
-    });
-}
-
-function setupCartSystem() {
-    const cartCounter = document.getElementById('cart-counter');
-    if (!cartCounter) return;
-
-    let cartItems = 0;
-    const cart = new CartSystem();
-
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', () => {
-            cartItems++;
-            cartCounter.textContent = cartItems;
-            cart.animateAddToCart();
-        });
-    });
-}
-
-function setupSearchBar() {
-    const searchBar = document.querySelector('.search-bar');
-    if (!searchBar) return;
-
-    searchBar.addEventListener('focus', () => {
-        searchBar.style.width = CONFIG.searchBar.expandedWidth;
-        searchBar.style.background = CONFIG.searchBar.focusBg;
-    });
-    
-    searchBar.addEventListener('blur', () => {
-        searchBar.style.width = CONFIG.searchBar.collapsedWidth;
-        searchBar.style.background = CONFIG.searchBar.blurBg;
-    });
-}
-
-function setupYearDisplay() {
-    const yearSpan = document.createElement('span');
-    yearSpan.textContent = new Date().getFullYear();
-    Object.assign(yearSpan.style, {
-        position: 'fixed',
-        bottom: '10px',
-        right: '10px',
-        opacity: '0.5',
-        fontSize: '0.8rem'
-    });
-    document.body.appendChild(yearSpan);
-}
-
-function setupThemeToggle() {
-    const themeToggle = document.createElement('div');
-    themeToggle.className = 'theme-toggle';
-    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-    document.body.appendChild(themeToggle);
-
-    themeToggle.addEventListener('click', toggleTheme);
-}
-
-function toggleTheme() {
-    document.body.classList.toggle('light-mode');
-    themeToggle.innerHTML = document.body.classList.contains('light-mode') 
-        ? '<i class="fas fa-sun"></i>' 
-        : '<i class="fas fa-moon"></i>';
-}
-
-function setupParallax() {
-    const parallaxContainer = document.querySelector('.parallax-container');
-    if (parallaxContainer) {
-        new Parallax(parallaxContainer);
+// Classe principale de l'application
+class AlpineStore {
+    constructor() {
+        this.init();
     }
-}
 
-function setupAOS() {
-    AOS.init({
-        duration: 1000,
-        once: true,
-        easing: 'ease-in-out-quart'
-    });
-}
+    init() {
+        this.cacheElements();
+        this.initModules();
+        this.setupEventListeners();
+    }
 
-function setupLoader() {
-    window.addEventListener('load', () => {
-        const loader = document.querySelector('.loader');
-        if (!loader) return;
+    cacheElements() {
+        this.elements = {
+            cartButton: document.querySelector('.cart-button'),
+            cartCount: document.querySelector('.cart-count'),
+            searchInput: document.querySelector('.search-input'),
+            productCards: document.querySelectorAll('.product-card'),
+            themeButton: document.createElement('div'),
+            loader: document.querySelector('.loader'),
+            parallaxScene: document.querySelector('.parallax-container')
+        };
+    }
 
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 600);
-        }, CONFIG.loaderTimeout);
-    });
-}
+    initModules() {
+        this.initAOS();
+        this.initParallax();
+        this.createThemeToggle();
+        this.setupAudio();
+    }
 
-function setupClickSounds() {
-    const clickSound = new Audio('soft-click.mp3');
-    
-    document.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', () => {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(() => {
-                console.warn('Audio playback failed');
+    // Initialisation des animations au scroll
+    initAOS() {
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            easing: 'ease-in-out-quart'
+        });
+    }
+
+    // Effet parallaxe
+    initParallax() {
+        if (this.elements.parallaxScene) {
+            new Parallax(this.elements.parallaxScene, {
+                relativeInput: true,
+                clipRelativeInput: true,
+                scalarX: CONFIG.parallax.sensitivity,
+                scalarY: CONFIG.parallax.sensitivity
+            });
+        }
+    }
+
+    // Gestion du thème
+    createThemeToggle() {
+        this.elements.themeButton.className = 'nav-icon theme-toggle';
+        this.elements.themeButton.innerHTML = '<i class="fas fa-moon"></i>';
+        document.querySelector('.nav-group').appendChild(this.elements.themeButton);
+        
+        this.elements.themeButton.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            this.toggleThemeIcon();
+            this.saveThemePreference();
+        });
+    }
+
+    toggleThemeIcon() {
+        const icon = this.elements.themeButton.querySelector('i');
+        icon.classList.toggle('fa-moon');
+        icon.classList.toggle('fa-sun');
+    }
+
+    saveThemePreference() {
+        localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+    }
+
+    // Système audio
+    setupAudio() {
+        this.clickSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2929/2929-preview.mp3');
+    }
+
+    // Gestion du panier
+    setupCart() {
+        let cartItems = 0;
+
+        document.querySelectorAll('.product-cta').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                cartItems++;
+                this.updateCart(cartItems);
+                this.animateCartButton();
+                this.playClickSound();
             });
         });
-    });
-}
-
-function setupScrollBlur() {
-    let isScrolling;
-    window.addEventListener('scroll', () => {
-        window.clearTimeout(isScrolling);
-        isScrolling = setTimeout(() => {
-            const scrollY = window.scrollY;
-            document.documentElement.style.setProperty(
-                '--blur-intensity', 
-                `${Math.min(scrollY / 100, CONFIG.maxBlur)}px`
-            );
-        }, 66); // ~15fps
-    });
-}
-
-// Cart System Class
-class CartSystem {
-    constructor() {
-        this.items = [];
-        this.drawer = document.querySelector('.cart-drawer');
     }
 
-    addItem(item) {
-        this.items.push(item);
-        this.updateDisplay();
-        this.animateAddToCart();
+    updateCart(count) {
+        this.elements.cartCount.textContent = count;
     }
 
-    animateAddToCart() {
-        const cartCounter = document.getElementById('cart-counter');
-        if (!cartCounter) return;
+    animateCartButton() {
+        this.elements.cartButton.animate([
+            { transform: 'scale(1)' },
+            { transform: `scale(${CONFIG.cartAnimation.scale})` },
+            { transform: 'scale(1)' }
+        ], {
+            duration: CONFIG.cartAnimation.duration,
+            easing: 'ease-out'
+        });
+    }
 
-        cartCounter.animate([
-            { transform: 'scale(1)', opacity: 1 },
-            { transform: 'scale(1.5)', opacity: 0.5 },
-            { transform: 'scale(1)', opacity: 1 }
-        ], { duration: CONFIG.cartAnimationDuration });
+    // Gestion de la recherche
+    setupSearch() {
+        this.elements.searchInput.addEventListener('focus', () => {
+            this.elements.searchInput.style.width = CONFIG.search.expandWidth;
+        });
+
+        this.elements.searchInput.addEventListener('blur', () => {
+            if (!this.elements.searchInput.value) {
+                this.elements.searchInput.style.width = CONFIG.search.collapseWidth;
+            }
+        });
+    }
+
+    // Loader
+    handleLoader() {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                this.elements.loader.style.opacity = '0';
+                setTimeout(() => this.elements.loader.remove(), 600);
+            }, CONFIG.loaderDelay);
+        });
+    }
+
+    // Sons d'interaction
+    playClickSound() {
+        this.clickSound.currentTime = 0;
+        this.clickSound.play().catch(() => {
+            console.warn('Le son interactif est désactivé');
+        });
+    }
+
+    // Événements globaux
+    setupEventListeners() {
+        // Header intelligent au scroll
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const nav = document.querySelector('.glass-nav');
+            
+            if (currentScroll > lastScroll) {
+                nav.style.transform = 'translateY(-100%)';
+            } else {
+                nav.style.transform = 'translateY(0)';
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Initialisation des composants
+        this.setupCart();
+        this.setupSearch();
+        this.handleLoader();
+
+        // Clic général
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button')) {
+                this.playClickSound();
+            }
+        });
     }
 }
+
+// Initialisation de l'application
+document.addEventListener('DOMContentLoaded', () => {
+    const store = new AlpineStore();
+});
