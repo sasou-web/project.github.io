@@ -173,3 +173,27 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log('Main.js chargé et prêt.');
   });
   
+  document.addEventListener('DOMContentLoaded', () => {
+    // Fondu d'entrée
+    document.body.style.opacity = 1;
+  
+    // Fondu de sortie
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        
+        // Vérifier qu'on ne fait pas de fade-out pour un ancrage interne (ex: #section)
+        if (href && !href.startsWith('#')) {
+          e.preventDefault();
+          // Lance le fade-out
+          document.body.style.opacity = 0;
+  
+          // Navigue vers la page une fois le fade-out terminé
+          setTimeout(() => {
+            window.location.href = href;
+          }, 500); // 500ms = durée de la transition
+        }
+      });
+    });
+  });
+  
